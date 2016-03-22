@@ -8,7 +8,9 @@ class Board
   end
 
   def display
+    puts " #{(0..8).to_a.join("")}"
     grid.each_with_index do |row, row_i|
+      print "#{row_i}"
       row.each_index do |col_i|
         pos = [row_i, col_i]
         if self[pos].flagged?
@@ -161,13 +163,13 @@ class Game
 
   def get_guess
     puts "Please enter tile you would like to select row, column"
-    user_input = gets.chomp
+    user_input = gets.chomp.downcase
     if user_input == "save"
       save_game
     elsif user_input == "load"
       load_game
     else
-      user_pos = user_input.split(", ").map(&:to_i)
+      user_pos = user_input.split(",").map(&:to_i)
       puts "Please enter your action (S/F)"
       user_action = gets.chomp
 
@@ -177,7 +179,7 @@ class Game
 
   def play_turn
     user_input = get_guess
-    if user_input[1] == "F"
+    if user_input[1] == "f"
       board[user_input[0]].flag
     else
       board.reveal_empty_to_fringe(user_input[0])
